@@ -1,4 +1,4 @@
-class CreateWithdrawals < ActiveRecord::Migration[8.1]
+class CreateWithdrawals < ActiveRecord::Migration[8.0]
   def change
     create_table :withdrawals do |t|
       t.references :order, null: false, foreign_key: true
