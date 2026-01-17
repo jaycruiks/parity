@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: products
+#
+#  id              :bigint           not null, primary key
+#  name            :string
+#  description     :text
+#  price_cents     :integer
+#  inventory_count :integer          default(0)
+#  active          :boolean          default(TRUE)
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
 class Product < ApplicationRecord
   has_many :order_items, dependent: :restrict_with_error
 

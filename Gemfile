@@ -31,6 +31,9 @@ gem "solid_cable"
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
+# Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
+gem "image_processing", "~> 1.2"
+
 # HTTP client for Mural Pay API
 gem "faraday"
 
@@ -60,7 +63,7 @@ group :development do
   gem "web-console"
 
   # Annotate models with schema info
-  gem "annotate"
+  gem "annot8"
 end
 
 group :test do
