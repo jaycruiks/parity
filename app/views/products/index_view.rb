@@ -22,7 +22,11 @@ class Views::Products::IndexView < Views::Base
   private
 
   def nav_bar
-    div(class: "flex justify-end mb-8") do
+    div(class: "flex justify-end gap-6 mb-8") do
+      link_to lookup_orders_path, class: "flex items-center gap-2 text-gray-600 hover:text-indigo-600 font-medium transition-colors" do
+        span(class: "text-xl") { "🔍" }
+        span { "Find Order" }
+      end
       link_to cart_path, class: "flex items-center gap-2 text-gray-600 hover:text-indigo-600 font-medium transition-colors" do
         span(class: "text-xl") { "🛒" }
         span { "View Cart" }

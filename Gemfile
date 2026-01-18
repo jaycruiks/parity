@@ -37,6 +37,9 @@ gem "image_processing", "~> 1.2"
 # HTTP client for Mural Pay API
 gem "faraday"
 
+# Admin dashboard
+gem "administrate"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
@@ -64,6 +67,9 @@ group :development do
 
   # Annotate models with schema info
   gem "annot8"
+
+  # Process manager for Procfile-based applications
+  gem "foreman"
 end
 
 group :test do
