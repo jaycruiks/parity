@@ -5,8 +5,7 @@ module MuralPay
     end
 
     def search(account_id:, status: nil, from_date: nil, to_date: nil, limit: 100)
-      post("/api/transactions/search", {
-        accountId: account_id,
+      post("/api/transactions/search/account/#{account_id}", {
         status: status,
         fromDate: from_date&.iso8601,
         toDate: to_date&.iso8601,

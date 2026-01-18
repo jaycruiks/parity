@@ -10,33 +10,39 @@ module MuralPay
 
     def create_individual(first_name:, last_name:, email:, address:)
       post("/api/counterparties", {
-        type: "individual",
-        firstName: first_name,
-        lastName: last_name,
-        email: email,
-        physicalAddress: format_address(address)
+        counterparty: {
+          type: "individual",
+          name: "#{first_name} #{last_name}",
+          email: email,
+          physicalAddress: format_address(address)
+        }
       })
     end
 
     def create_business(business_name:, email:, address:)
       post("/api/counterparties", {
-        type: "business",
-        businessName: business_name,
-        email: email,
-        physicalAddress: format_address(address)
+        counterparty: {
+          type: "business",
+          name: business_name,
+          email: email,
+          physicalAddress: format_address(address)
+        }
       })
     end
 
-    def supported_banks(payout_type:)
+    def supported_banks(payout_types:)
       get("/api/counterparties/payment-methods/supported-banks", {
-        payoutMethodType: payout_type
+        payoutMethodTypes: payout_types
       })
     end
 
-    def create_payout_method(counterparty_id:, alias_name:, payout_method_details:)
+    def create_payout_method(counterparty_id:, alias_name:, payout_method_type:, payout_method_details:)
       post("/api/counterparties/#{counterparty_id}/payout-methods", {
         alias: alias_name,
-        payoutMethodDetails: payout_method_details
+        payoutMethod: {
+          type: payout_method_type,
+          details: payout_method_details
+        }
       })
     end
 
@@ -44,8 +50,10 @@ module MuralPay
       create_payout_method(
         counterparty_id: counterparty_id,
         alias_name: alias_name,
+        payout_method_type: "cop",
         payout_method_details: {
           type: "copDomestic",
+          symbol: "COP",
           bankId: bank_id,
           bankAccountNumber: account_number,
           accountType: account_type,
@@ -64,10 +72,10 @@ module MuralPay
 
     def format_address(address)
       {
-        addressLine1: address[:line1],
-        addressLine2: address[:line2],
+        address1: address[:line1],
+        address2: address[:line2],
         city: address[:city],
-        stateOrProvince: address[:state],
+        subDivision: address[:state],
         postalCode: address[:postal_code],
         country: address[:country]
       }.compact

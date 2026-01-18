@@ -8,17 +8,17 @@ module MuralPay
       get("/api/webhooks/#{id}")
     end
 
-    def create(url:, events:)
+    def create(url:, categories:)
       post("/api/webhooks", {
         url: url,
-        events: events
+        categories: categories
       })
     end
 
-    def update(id, url: nil, events: nil)
+    def update(id, url: nil, categories: nil)
       patch("/api/webhooks/#{id}", {
         url: url,
-        events: events
+        categories: categories
       }.compact)
     end
 
@@ -27,7 +27,7 @@ module MuralPay
     end
 
     def enable(id)
-      update_status(id, "ENABLED")
+      update_status(id, "ACTIVE")
     end
 
     def disable(id)

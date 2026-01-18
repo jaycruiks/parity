@@ -40,12 +40,21 @@ module Webhooks
 
     def verify_webhook_signature
       signature = request.headers["X-Mural-Signature"]
-      secret = ENV["MURAL_WEBHOOK_SECRET"]
+      public_key_pem = ENV["MURAL_WEBHOOK_PUBLIC_KEY"]
 
-      return true if secret.blank?
+      return true if public_key_pem.blank?
 
-      expected = OpenSSL::HMAC.hexdigest("SHA256", secret, request.raw_post)
-      ActiveSupport::SecurityUtils.secure_compare(signature.to_s, expected)
+      # Decode the signature from base64
+      signature_bytes = Base64.decode64(signature)
+
+      # Load the public key
+      public_key = OpenSSL::PKey::EC.new(public_key_pem)
+
+      # Verify the signature using ECDSA with SHA256
+      public_key.verify(OpenSSL::Digest::SHA256.new, signature_bytes, request.raw_post)
+    rescue => e
+      Rails.logger.error "Webhook signature verification failed: #{e.message}"
+      false
     end
   end
 end

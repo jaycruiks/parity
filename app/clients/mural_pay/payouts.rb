@@ -1,18 +1,18 @@
 module MuralPay
   class Payouts < Base
     def find(id)
-      get("/api/payout-requests/#{id}")
+      get("/api/payouts/#{id}")
     end
 
     def search(status: nil, limit: 100)
-      post("/api/payout-requests/search", {
+      post("/api/payouts/search", {
         status: status,
         limit: limit
       }.compact)
     end
 
     def create(source_account_id:, payouts:, memo: nil)
-      post("/api/payout-requests", {
+      post("/api/payouts/payout", {
         sourceAccountId: source_account_id,
         memo: memo,
         payouts: payouts
@@ -20,11 +20,11 @@ module MuralPay
     end
 
     def execute(id)
-      post("/api/payout-requests/#{id}/execute", {})
+      post("/api/payouts/#{id}/execute", {})
     end
 
     def cancel(id)
-      post("/api/payout-requests/#{id}/cancel", {})
+      post("/api/payouts/#{id}/cancel", {})
     end
 
     def create_cop_payout(source_account_id:, counterparty_id:, payout_method_id:, usdc_amount:, memo: nil)
